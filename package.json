@@ -1,0 +1,12 @@
+{
+  "name": "nodejs_review",
+  "version": "1.0.0",
+  "description": "nodejs review",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \\\\\\\\\\\\\\\"Error: no test/vector-api specified\\\\\\\\\\\\\\\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

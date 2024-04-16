@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Display a map on a webpage</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+
+    var vectorTileBackgroundLayer = {
+        "version": 8,
+        "sources": {
+            "raster-tile": {
+                "type": "raster",
+                "tiles": ["http://10.1.10.109/tiandituImgLabel/{z}/{x}/{y}.png"],
+                "tileSize": 256
+            }
+        },
+        "layers": [
+            {
+                "id": "simple-tiles",
+                "type": "raster",
+                "source": "raster-tile",
+                "minzoom": 6,
+                "maxzoom": 22
+            }
+        ]
+    };
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiMjY1MjIwMjUxMyIsImEiOiJjbGVoMXJ2NmMwMm14M3dubHo4Nm1vNmY1In0.DfyxyI7qUMJX2SjpodZ5jw';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: vectorTileBackgroundLayer,
+        center: [118.1517713497023, 39.63166152545793], // 初始坐标系
+        zoom: 17,     // starting zoom 地图初始的拉伸比例
+        pitch: 0,  //地图的角度，不写默认是0，取值是0-60度，一般在3D中使用
+        bearing: 0, //地图的初始方向，值是北的逆时针度数，默认是0，即是正北
+        antialias: true, //抗锯齿，通过false关闭提升性能
+        minZoom: 17,
+        maxZoom: 17,
+    });
+</script>
+
+</body>
+</html>
