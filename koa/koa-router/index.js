@@ -1,40 +1,27 @@
-const Koa =require('koa')
-const fs = require('fs')
-const app = new Koa()
-function render(page){
-    return new Promise((resolve,reject)=>{
-        let url = `./page/${page}`
-        fs.readFile(url,'binary',(err,data)=>{
-            if (err) {
-                reject(err)
-            }else{
-                resolve(data)
-            }
-        })
-    })
-}
+const koa = require("koa");
+const Router = require("koa-router");
+const app = new koa();
 
-async function router(url){
-    let view = "404.html"
-    switch (url) {
-        case '/':
-            view = 'index.html'
-            break;
-            case '/error':
-                view = 'error.html'
-                break;
-                case '/404':
-            view = '404.html'
-            break;
-        default:
-            break;
-    }
-    return await render(view)
-}
+const routerOne = new Router();
+routerOne.get("/", async (ctx) => {
+  ctx.body = "Hello World";
+});
 
-app.use(async(ctx)=>{
-    let url = ctx.request.url
-    ctx.body =await router(url)
-})
+const routerTwo = new Router();
+routerTwo
+  .get("/404", async (ctx) => {
+    ctx.body = "Page not founds";
+  })
+  .get("/500", async (ctx) => {
+    ctx.body = "Internal server error";
+  });
 
-app.listen(3000)
+const router = new Router();
+router.use("/", routerOne.routes(), routerOne.allowedMethods());
+router.use("/error", routerTwo.routes(), routerTwo.allowedMethods());
+ 
+// 加载中间件
+app.use(router.routes()).use(router.allowedMethods());
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
